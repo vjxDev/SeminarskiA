@@ -1,5 +1,5 @@
 
-from my_types import colorsType, EyesType, ShapesType
+from helper.my_types import colorsType, EyesType, ShapesType
 import glob
 import ntpath
 

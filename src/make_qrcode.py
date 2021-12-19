@@ -2,8 +2,8 @@ from qrcode import QRCode
 from qrcode.constants import ERROR_CORRECT_L
 
 
-def make(string: str) -> list[list[bool]]:
-    code = QRCode(border=0, error_correction=ERROR_CORRECT_L)
+def make(string: str, padding=0) -> list[list[bool]]:
+    code = QRCode(border=padding, error_correction=ERROR_CORRECT_L)
     code.add_data(string)
     code.make()
     matrix = code.get_matrix()
@@ -14,9 +14,9 @@ def debugPrintQrCode(matrix: list[list[bool]]):
     for row in matrix:
         for el in row:
             if el:
-                print("⬜", end="")
-            else:
                 print("⬛", end="")
+            else:
+                print("⬜", end="")
         print()
 
 

@@ -7,3 +7,5 @@ get in dic
 
 - [ ] Json config
  
+
+- [ ] theme ...

@@ -6,7 +6,7 @@ class ColorType(TypedDict):
     color: str
 
 
-colorsType = list[ColorType]
+ColorsType = list[ColorType]
 
 
 class EyeType(TypedDict):
@@ -24,3 +24,12 @@ class ShapeType(TypedDict):
 
 
 ShapesType = list[ShapeType]
+
+
+class ThemeType(TypedDict):
+    name: str
+    type: Literal["one", "gradient", "multicolor"]
+    colors: list[str]
+
+
+ThemesType = list[ThemeType]

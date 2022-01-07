@@ -1,23 +1,24 @@
 
-from helper.my_types import colorsType, EyesType, ShapesType
+from my_types import ThemesType, ColorsType, EyesType, ShapesType
 import glob
 import ntpath
+import json
 
 folders = ('default', 'mods')
-subfolders = ('colors', 'eyes', 'shapes')
+subfolders = ('colors', 'eyes', 'shapes', 'themes')
 
 
-def getColors() -> colorsType:
-    colors: colorsType = []
+def getColors() -> ColorsType:
+    colors: ColorsType = []
     for folder in folders:
-        for fileName in glob.glob(f'{folder}/colors/*.txt'):
+        for fileName in glob.glob(f'{folder}/{subfolders[0]}/*.txt'):
             with open(fileName, 'r') as file:
                 color = file.read()
                 head, tail = ntpath.split(fileName)
                 name, ext = ntpath.splitext(tail)
                 colors.append({'name': name, 'color': color})
 
-        for fileName in glob.glob(f'{folder}/colors/*.data'):
+        for fileName in glob.glob(f'{folder}/{subfolders[0]}/*.data'):
             with open(fileName, 'r') as file:
                 for line in file:
                     line = line.strip()
@@ -30,7 +31,7 @@ def getColors() -> colorsType:
 def getEyes() -> EyesType:
     eyes: EyesType = []
     for folder in folders:
-        for fileName in glob.glob(f'{folder}/eyes/*.txt'):
+        for fileName in glob.glob(f'{folder}/{subfolders[1]}/*.txt'):
             with open(fileName, 'r') as file:
                 eye = file.read()
                 head, tail = ntpath.split(fileName)
@@ -43,11 +44,12 @@ def getShapes() -> ShapesType:
     shapes: ShapesType = []
 
     for folder in folders:
-        for fileName in glob.glob(f'{folder}/shapes/*.txt'):
+        for fileName in glob.glob(f'{folder}/{subfolders[2]}/*.txt'):
             head, tail = ntpath.split(fileName)
             name, ext = ntpath.splitext(tail)
             shapes.append({'name': name, 'path': fileName, 'type': 'file'})
-        for fileName in glob.glob(f'{folder}/shapes/*.py'):
+
+        for fileName in glob.glob(f'{folder}/{subfolders[2]}/*.py'):
             head, tail = ntpath.split(fileName)
             name, ext = ntpath.splitext(tail)
             shapes.append({'name': name, 'path': fileName, 'type': 'module'})
@@ -55,8 +57,14 @@ def getShapes() -> ShapesType:
     return shapes
 
 
-def getAll():
-    return (getColors(), getShapes(), getEyes())
+def getThemes() -> ThemesType:
+    themes: ThemesType = []
+    for folder in folders:
+        for fileName in glob.glob(f'{folder}/{subfolders[3]}/*.json'):
+            with open(fileName, 'r') as file:
+                jsonData = json.load(file)
+                themes.append(jsonData)
+    return themes
 
 
 def main():
@@ -64,6 +72,8 @@ def main():
     print(getEyes())
     print(getShapes())
 
+
+print(__name__)
 
 if __name__ == '__main__':
     main()

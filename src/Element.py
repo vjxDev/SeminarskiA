@@ -15,12 +15,12 @@ class Element:
         for (key, value) in self.attributes.items():
             attribute += f"{key}=\"{value}\" "
 
-        innerHTML = self.children_innerHTML()
+        innerHTML = self.children_to_HTML()
         if innerHTML == "":
             return f"<{self.t} {attribute}/>"
         return f"<{self.t} {attribute}> {innerHTML} </{self.t}>"
 
-    def children_innerHTML(self):
+    def children_to_HTML(self):
         innerHTML = ""
         for el in self.children:
             txt = el.to_text()

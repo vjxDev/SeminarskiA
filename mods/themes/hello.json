@@ -1,1 +1,37 @@
-{"name": "gfd", "type": "gradient", "colors": ["#208090", "#20B0F0"]}
+{
+  "name": "Theme 1",
+  "dotsColor": {
+    "type": "one",
+    "colors": [
+      "#000080"
+    ]
+  },
+  "dotsShape": {
+    "name": "oblik2",
+    "path": "default/shapes\\oblik2.txt",
+    "type": "file"
+  },
+  "eyesColor": {
+    "type": "one",
+    "colors": [
+      "#50E030"
+    ]
+  },
+  "eyesShape": [
+    {
+      "name": "roundEye",
+      "path": "mods/eyes\\roundEye.py",
+      "type": "module"
+    },
+    {
+      "name": "roundEye",
+      "path": "mods/eyes\\roundEye.py",
+      "type": "module"
+    },
+    {
+      "name": "roundEye",
+      "path": "mods/eyes\\roundEye.py",
+      "type": "module"
+    }
+  ]
+}

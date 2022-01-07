@@ -11,10 +11,8 @@ ColorsType = list[ColorType]
 
 class EyeType(TypedDict):
     name: str
-    shape: str
-
-
-EyesType = list[EyeType]
+    path: str
+    type: Literal['module', 'file']
 
 
 class ShapeType(TypedDict):
@@ -23,13 +21,22 @@ class ShapeType(TypedDict):
     type: Literal['module', 'file']
 
 
-ShapesType = list[ShapeType]
+class DotsThemeType(TypedDict):
+    type: Literal["one", "gradient", "multicolor"]
+    colors: list[str]
+
+
+class EyesThemeType(TypedDict):
+    type: Literal["one", "gradient"]
+    colors: list[str]
 
 
 class ThemeType(TypedDict):
     name: str
-    type: Literal["one", "gradient", "multicolor"]
-    colors: list[str]
+    dotsColor: DotsThemeType
+    dotsShape: ShapeType
+    eyesColor: tuple[EyesThemeType, EyesThemeType, EyesThemeType]
+    eyesShape: tuple[EyeType, EyeType, EyeType]
 
 
 ThemesType = list[ThemeType]

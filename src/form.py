@@ -1,6 +1,6 @@
-from typing import Literal, TypedDict
+from typing import Literal
 import inquirer
-from inquirer import themes
+
 import re
 
 formOptions = Literal['text', 'URL', 'WI-FI', 'contact', 'event', 'call']
@@ -15,12 +15,12 @@ def startForm() -> str:
     selected: formOptions = answers
     match selected:
         case 'text':
-            text = input("Imput some text")
+            text = input("Input some text")
             return text
         case 'URL':
             t = ""
             while(True):
-                text = input(f"Imput a url {t}", default="https://")
+                text = input(f"Input a url {t}")
                 regex = re.compile(
                     r'^https?://'
                     r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+[A-Z]{2,6}\.?|'

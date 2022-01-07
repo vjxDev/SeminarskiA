@@ -1,9 +1,6 @@
-# std imports
 import math
 import colorsys
 from typing import TypedDict
-
-# local
 
 from blessed import Terminal
 

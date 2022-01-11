@@ -1,5 +1,5 @@
-from src.Element import Element
-from src.helper import addPadding, cellSize, drawRect, drawCircle
+from Element import Element
+from helper import addPadding, cellSize, drawRect, drawCircle
 import math
 
 

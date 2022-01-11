@@ -5,7 +5,7 @@ from svglib.svglib import svg2rlg
 from typing import Callable, Generator, Literal, TypedDict
 import math
 
-from src.make_qrcode import makeCode
+from Make_qrcode import makeCode
 from src.Element import Element
 import copy
 

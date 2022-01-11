@@ -1,8 +1,9 @@
 import inquirer
-from src.Theme import createTheme, selectTheme
-from src.my_types import ThemeType
-from src.form import startForm
-from src.make_qrcode import debugPrintQrCode, makeCode
+from DrawCode import drawCode
+from Theme import createTheme, selectTheme
+from my_types import ThemeType
+from Form import startForm
+from Make_qrcode import debugPrintQrCode, makeCode
 import json
 
 
@@ -23,7 +24,10 @@ def option1():
     print("\n"*3)
     qrcodeString = startForm()
     qrCodeMatrix = makeCode(qrcodeString)
-    debugPrintQrCode(qrCodeMatrix)
+    stringCode = drawCode(qrCodeMatrix, theme)
+    with open('./output/out.svg', 'w', encoding="utf-8")as file:
+        file.write(stringCode)
+    print("\n\n Kod je uspesno napravljen!")
 
 
 def main():

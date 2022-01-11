@@ -1,7 +1,7 @@
 {
-  "name": "Theme 1",
+  "name": "Theme grad",
   "dotsColor": {
-    "type": "multicolor",
+    "type": "gradient",
     "colors": [
       "#573697",
       "#933F99",
@@ -13,12 +13,32 @@
     "path": "mods/shapes\\VerticalLines.py",
     "type": "file"
   },
-  "eyesColor": {
-    "type": "one",
-    "colors": [
-      "#50E030"
-    ]
-  },
+  "eyesColor": [
+    {
+      "type": "gradient",
+      "colors": [
+        "#573697",
+        "#933F99",
+        "#E88C5D"
+      ]
+    },
+    {
+      "type": "one",
+      "colors": [
+        "#573697",
+        "#933F99",
+        "#E88C5D"
+      ]
+    },
+    {
+      "type": "gradient",
+      "colors": [
+        "#573697",
+        "#933F99",
+        "#E88C5D"
+      ]
+    }
+  ],
   "eyesShape": [
     {
       "name": "roundEye",

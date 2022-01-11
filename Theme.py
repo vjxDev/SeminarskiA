@@ -1,9 +1,9 @@
 
 
-from src.my_types import ColorsType, EyeType, ShapeType, ThemeType
-from src.ColorPicker import ColorPicerFormat, colorPicker
-from src.helper import hex_to_rgb, rgb_to_hex
-from src.import_files import getColors, getEyes, getShapes, getThemes
+from my_types import ColorsType, ModuleType, ThemeType
+from ColorPicker import ColorPicerFormat, colorPicker
+from helper import hex_to_rgb, rgb_to_hex
+from import_files import getColors, getEyes, getShapes, getThemes
 
 import json
 import inquirer
@@ -22,7 +22,9 @@ def selectTheme() -> ThemeType:
         return term.color_rgb(r, g, b)
 
     for t in themes:
-        o = t['dotsColor']['colors'] + t['eyesColor']['colors']
+        print(t)
+        o = t['dotsColor']['colors']
+
         options.append(
             f"{t['name']}:"+"".join(printCubeWithColor(i)+'◼' for i in o))
 
@@ -87,7 +89,7 @@ def inputColors(colors: ColorsType, options: list[str] = ["One color", "Gradient
             return returnObject
 
 
-def inputDotsShape() -> ShapeType:
+def inputDotsShape() -> ModuleType:
     shapes = getShapes()
     options = [shape['name'] for shape in shapes]
     selected = inquirer.list_input("Input the dots shape", choices=options)
@@ -95,7 +97,7 @@ def inputDotsShape() -> ShapeType:
     return shapes[index]
 
 
-def inputEyesShape() -> tuple[EyeType, EyeType, EyeType]:
+def inputEyesShape() -> tuple[ModuleType, ModuleType, ModuleType]:
     shapes = getEyes()
     options = [shape['name'] for shape in shapes]
     selectedTL = inquirer.list_input(

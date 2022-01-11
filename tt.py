@@ -1,9 +1,17 @@
+from importlib.machinery import SourceFileLoader
+
+from Make_qrcode import makeCode
+from src.Element import Element
+
 
 def main():
+    foo = SourceFileLoader(
+        "VerticalLines", "./mods\shapes\VerticalLines.py").load_module()
     # Problem za buduceg mene
     # [ ] - Poglredaj kako se radi sa ovim cudom i da li mogu da iimportujem preko putanje ili mora sa tackama(.)
-    h = __import__("mods.shapes.VerticalLines", globals(), locals(), [], 0)
-    print(h)
+
+    el: Element = foo.draw(makeCode("https://vjxdev.github.io"))
+    print(hasattr(foo, "draw"))
 
 
 if __name__ == "__main__":

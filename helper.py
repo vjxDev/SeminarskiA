@@ -1,6 +1,4 @@
-from src.Element import Element
-
-import imp
+from Element import Element
 
 
 def hex_to_rgb(hex_string):

@@ -8,7 +8,7 @@ from Theme import selectTheme
 from Make_qrcode import makeCode
 from my_types import ModuleType, ThemeType
 from Element import Element
-from helper import drawRect
+from helper import drawRect, getDrawFromModule
 
 
 def matrixWithoutEyes(list: list[list[bool]]) -> list[list[bool]]:
@@ -25,16 +25,6 @@ def matrixWithoutEyes(list: list[list[bool]]) -> list[list[bool]]:
             if rowIndex > cells-8 and elementIndex < 7:
                 m[rowIndex][elementIndex] = False
     return m
-
-
-def getDrawFromModule(mod: ModuleType) -> Callable[[list[list[bool]]], Element]:
-    m = SourceFileLoader(
-        mod["name"], mod["path"]).load_module()
-    print(m)
-    if(hasattr(m, "draw")):
-        d: Callable[[list[list[bool]]], Element] = m.draw
-        return d
-    raise ImportError("Now draw funcion in", mod["name"], mod["path"])
 
 
 IDDotsFill = "dots-fill"
@@ -103,7 +93,7 @@ def drawCode(matrix: list[list[bool]], theme: ThemeType) -> str:
         cells-7, 0), dEyesFList[2](0, cells-7,)]
     toRemove = []
     for index, options in enumerate(theme["eyesColor"]):
-        print(index)
+
         dotsColors = options["colors"]
         position = 'tl'
         if index == 0:
@@ -116,6 +106,7 @@ def drawCode(matrix: list[list[bool]], theme: ThemeType) -> str:
         match options["type"]:
             case 'one':
                 eyesG.children[index].add_attribute('fill', dotsColors[0])
+
             case "gradient":
                 gradiant = Element('linearGradient')
                 gradiant.add_attribute('id', IDEyesFill(position))
@@ -137,8 +128,15 @@ def drawCode(matrix: list[list[bool]], theme: ThemeType) -> str:
                 mask.append_child(l)
 
                 defs.append_child(mask)
+                recMask: Element
+                match(position):
+                    case "tl":
+                        recMask = drawRect(0, 0, 7*24, 7*24)
+                    case "tr":
+                        recMask = drawRect(width-7*24, 0, width, 7*24)
+                    case "bl":
+                        recMask = drawRect(0, height-7*24, 7*24, height)
 
-                recMask = drawRect(0, 0, width, height)
                 recMask.add_attribute('mask', f'url(#{IDEyesMask(position)})')
                 recMask.add_attribute('fill', f"url(#{IDEyesFill(position)})")
                 outerMaskG.append_child(recMask)

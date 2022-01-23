@@ -1,0 +1,49 @@
+{
+  "name": "Banana",
+  "dotsColor": {
+    "type": "multicolor",
+    "colors": [
+      "#F07030",
+      "#C45508",
+      "#C0C030"
+    ]
+  },
+  "dotsShape": {
+    "name": "HorisontalLines",
+    "path": "default/shapes\\HorisontalLines.py"
+  },
+  "eyesColor": [
+    {
+      "type": "one",
+      "colors": [
+        "#F0A020"
+      ]
+    },
+    {
+      "type": "one",
+      "colors": [
+        "#F97306"
+      ]
+    },
+    {
+      "type": "one",
+      "colors": [
+        "#D26643"
+      ]
+    }
+  ],
+  "eyesShape": [
+    {
+      "name": "roundEye",
+      "path": "default/eyes\\roundEye.py"
+    },
+    {
+      "name": "roundEye",
+      "path": "default/eyes\\roundEye.py"
+    },
+    {
+      "name": "roundEye",
+      "path": "default/eyes\\roundEye.py"
+    }
+  ]
+}

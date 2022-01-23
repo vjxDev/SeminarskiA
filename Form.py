@@ -15,12 +15,12 @@ def startForm() -> str:
     selected: formOptions = answers
     match selected:
         case 'text':
-            text = input("Input some text")
+            text = input("Input some text ")
             return text
         case 'URL':
             t = ""
             while(True):
-                text = input(f"Input a url {t}")
+                text = input(f"Input a url {t} ")
                 regex = re.compile(
                     r'^https?://'
                     r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+[A-Z]{2,6}\.?|'
@@ -46,7 +46,7 @@ def startForm() -> str:
 
 
 def WIFIIn() -> str:
-    wifiname: str = input("WiFi name (SSID)")
+    wifiname: str = input("WiFi name (SSID) ")
     hasPassword: bool = False
     isHidden: bool = False
     password: str = ""
@@ -54,14 +54,14 @@ def WIFIIn() -> str:
 
     answers1 = inquirer.checkbox(
         message="Options ", choices=["Is your wifi hidden", "Dose your WiFi have a password"], default=False),
-    print(answers1[0])
+
     options = {v: True for v in answers1[0]}
     isHidden = options.get("Is your wifi hidden", False)
     hasPassword = options.get(
         "Dose your WiFi have a password", False)
 
     if(hasPassword):
-        password = input("Password"),
+        password = input("Password "),
         type = inquirer.list_input(
             message="WiFi type", choices=["WEP", "WPA/WPA2"]),
 
@@ -81,14 +81,14 @@ def WIFIIn() -> str:
 
 
 def contactIn():
-    name = input("Name")
-    company = input("Company")
-    title = input("Title")
-    tel = input("Telphone")
-    site = input("Web site")
-    email = input("Email")
-    address = input("Address")
-    memo = input("Memo/Note")
+    name = input("Name ")
+    company = input("Company ")
+    title = input("Title ")
+    tel = input("Telphone ")
+    site = input("Web site ")
+    email = input("Email ")
+    address = input("Address ")
+    memo = input("Memo/Note ")
 
     out = f"""BEGIN:VCARD
 VERSION:3.0 

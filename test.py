@@ -6,7 +6,7 @@ from typing import Callable, Generator, Literal, TypedDict
 import math
 
 from Make_qrcode import makeCode
-from src.Element import Element
+from Element import Element
 import copy
 
 matrix: list[list[bool]] = makeCode("https://google.com")
@@ -40,11 +40,6 @@ def addPadding(modMatrix, padding=padding):
             padMatrix[rowIndex+padding][elementIndex +
                                         padding] = modMatrix[rowIndex][elementIndex]
     return padMatrix
-
-
-gen = Generator()
-
-print(next(gen))
 
 
 cellSize = 24

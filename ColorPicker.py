@@ -13,32 +13,27 @@ class ColorPicerFormat(TypedDict):
     color: tuple[int, int, int]
 
 
-def allColors() -> list[ColorPicerFormat]:
-    items = []
+def sortby_hv(item: ColorPicerFormat):
+    digit = 0
+    hsv = colorsys.rgb_to_hsv(*item['color'])
+    if item['color'][0] == item['color'][1] == item['color'][2]:
+        return 100, hsv[2], digit
+    return int(math.floor(hsv[0] * 100)), digit, hsv[2]
 
-    def sortby_hv(rgb):
-        digit = 0
-        hsv = colorsys.rgb_to_hsv(*rgb)
-        if rgb[0] == rgb[1] == rgb[2]:
-            return 100, hsv[2],  digit
 
-        return int(math.floor(hsv[0] * 100)), digit, hsv[2]
+def color_table() -> list[ColorPicerFormat]:
+    listOfRGB = []
+
     for r in range(16):
         for g in range(16):
             for b in range(16):
-                items.append((r*16, b*16, g*16))
-    listOfRGB = sorted(items, key=sortby_hv)
+                listOfRGB.append((r*16, b*16, g*16))
     return [{'name': f"{item[0]}{item[1]}{item[2]}", "color": item} for item in listOfRGB]
 
 
-HSV_SORTED_COLORS: list[ColorPicerFormat] = allColors()
-
-
-def render(HSV_SORTED_COLORS, term: Terminal, idx: int):
+def render(HSV_SORTED_COLORS: list[ColorPicerFormat], term: Terminal, idx: int, cache: str = ""):
     r, g, b = HSV_SORTED_COLORS[idx]['color']
-    result = term.home + term.normal + ''.join(
-        term.color_rgb(HSV_SORTED_COLORS[i]['color'][0], HSV_SORTED_COLORS[i]['color'][1], HSV_SORTED_COLORS[i]['color'][2]) + '◼'+term.normal for i in range(len(HSV_SORTED_COLORS))
-    )
+    result = cache
     result += term.clear_eos + '\n'
     result += term.on_color_rgb(r, g, b) + term.clear_eos + '\n'
     result += term.normal + \
@@ -58,18 +53,20 @@ def next_color(color, forward):
         next_index = 0
     return colorspaces[next_index]
 
-# Pokusaj da dodas colors: ColorsType i da Picerr bude baziran na tim bojama
 
+def colorPicker(c: list[ColorPicerFormat] = color_table()) -> tuple[int, int, int]:
+    HSV_SORTED_COLORS = sorted(c, key=sortby_hv)
 
-def colorPicker(c: list[ColorPicerFormat] = allColors()) -> tuple[int, int, int]:
-    HSV_SORTED_COLORS = c
+    cache: str = term.home + term.normal + ''.join(
+        term.color_rgb(HSV_SORTED_COLORS[i]['color'][0], HSV_SORTED_COLORS[i]['color'][1], HSV_SORTED_COLORS[i]['color'][2]) + '◼'+term.normal for i in range(len(HSV_SORTED_COLORS))
+    )
 
     with term.cbreak(), term.hidden_cursor(), term.fullscreen():
         idx = len(HSV_SORTED_COLORS) // 2
         dirty = True
         while True:
             if dirty:
-                outp = render(HSV_SORTED_COLORS, term, idx)
+                outp = render(HSV_SORTED_COLORS, term, idx, cache)
                 print(outp, end='', flush=True)
             with term.hidden_cursor():
                 inp = term.inkey()

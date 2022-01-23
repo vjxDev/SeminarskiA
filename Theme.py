@@ -22,7 +22,6 @@ def selectTheme() -> ThemeType:
         return term.color_rgb(r, g, b)
 
     for t in themes:
-        print(t)
         o = t['dotsColor']['colors']
 
         options.append(
@@ -42,13 +41,16 @@ def oneColorChoice(colors: ColorsType) -> tuple[int, int, int]:
         message="How do you want to select your colors", choices=c)
     match inputChoioce:
         case 'Manual input':
-            # [ ] LATER! : validate=lambda _, c: 0 <= int(c) <= 255 is not working
+            while True:
+                # [ ] LATER! : validate=lambda _, c: 0 <= int(c) <= 255 is not working
 
-            r = input('Input the red color')
-            g = input('Input the greean color')
-            b = input('Input the blue color')
+                r = input('Input the red color ')
+                g = input('Input the greean color ')
+                b = input('Input the blue color ')
 
-            return int(r), int(g), int(b)
+                if 0 <= int(r) and int(r) <= 255 and 0 <= int(g) and int(g) <= 255 and 0 <= int(b) and int(b) <= 255:
+                    return int(r), int(g), int(b)
+                print("Error during input")
         case 'Color picker':
             return colorPicker()
         case 'Select color from files':
@@ -57,6 +59,7 @@ def oneColorChoice(colors: ColorsType) -> tuple[int, int, int]:
             for value in colors:
                 r, g, b = hex_to_rgb(value['color'])
                 options.append({'name': value['name'], 'color': (r, g, b)})
+
             return colorPicker(options)
 
 
@@ -116,7 +119,12 @@ def inputEyesShape() -> tuple[ModuleType, ModuleType, ModuleType]:
 
 def createTheme() -> ThemeType:
     colors = getColors()
-    name = input("Name your theme ")
+    name = ""
+    while True:
+        name = input("Name your theme ")
+        if name != "":
+            break
+        print("Unesite ime")
 
     dotsOptions = ["One color", "Gradient", "Multi Color"]
     eyesOptions = ["One color", "Gradient"]
@@ -124,21 +132,28 @@ def createTheme() -> ThemeType:
     dotsColor = inputColors(colors, dotsOptions)
     dotsShape = inputDotsShape()
 
-    print("Input the dots colors:")
-    eyesColor = inputColors(colors, eyesOptions)
+    eyesColors = []
+    print("Input top eye tl colors: ")
+    eyesColors.append(inputColors(colors, eyesOptions))
+    print("Input top eye tr colors: ")
+    eyesColors.append(inputColors(colors, eyesOptions))
+    print("Input top eye bl colors: ")
+    eyesColors.append(inputColors(colors, eyesOptions))
+
     eyesShape = inputEyesShape()
     theme: ThemeType = {
         'name': name,
         'dotsColor': dotsColor,
         'dotsShape': dotsShape,
-        'eyesColor': eyesColor,
+        'eyesColor': eyesColors,
         'eyesShape': eyesShape
     }
     return theme
 
 
 def main():
-    create = False
+    create = True
+    print(len(getColors()))
     if(create):
         theme = createTheme()
         with open(f'mods/themes/hello.json', 'w+') as file:

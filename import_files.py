@@ -35,7 +35,7 @@ def getEyes() -> list[ModuleType]:
         for fileName in glob.glob(f'{folder}/{subfolders[1]}/*.py'):
             head, tail = ntpath.split(fileName)
             name, ext = ntpath.splitext(tail)
-            eyes.append({'name': name, 'path': fileName, })
+            eyes.append({'name': name, 'path': fileName})
     return eyes
 
 
@@ -61,14 +61,25 @@ def getThemes() -> ThemesType:
     return themes
 
 
+def getSimpleShpaes() -> list[ModuleType]:
+    simpleShapes: list[ModuleType] = []
+
+    for folder in folders:
+        for fileName in glob.glob(f'{folder}/{subfolders[2]}/simple/*.py'):
+            head, tail = ntpath.split(fileName)
+            name, ext = ntpath.splitext(tail)
+            simpleShapes.append({'name': name, 'path': fileName})
+
+    return simpleShapes
+
+
 def main():
     print(getColors())
     print(getEyes())
     print(getShapes())
     print(getThemes())
+    print(getSimpleShpaes())
 
-
-print(__name__)
 
 if __name__ == '__main__':
     main()

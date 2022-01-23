@@ -1,0 +1,47 @@
+{
+  "name": "RandomShapes",
+  "dotsColor": {
+    "type": "one",
+    "colors": [
+      "#000000"
+    ]
+  },
+  "dotsShape": {
+    "name": "SimpleShapes",
+    "path": "default/shapes\\SimpleShapes.py"
+  },
+  "eyesColor": [
+    {
+      "type": "one",
+      "colors": [
+        "#000000"
+      ]
+    },
+    {
+      "type": "one",
+      "colors": [
+        "#000000"
+      ]
+    },
+    {
+      "type": "one",
+      "colors": [
+        "#000000"
+      ]
+    }
+  ],
+  "eyesShape": [
+    {
+      "name": "roundEye",
+      "path": "default/eyes\\roundEye.py"
+    },
+    {
+      "name": "roundEye",
+      "path": "default/eyes\\roundEye.py"
+    },
+    {
+      "name": "roundEye",
+      "path": "default/eyes\\roundEye.py"
+    }
+  ]
+}

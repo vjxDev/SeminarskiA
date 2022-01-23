@@ -5,6 +5,7 @@ from my_types import ThemeType
 from Form import startForm
 from Make_qrcode import debugPrintQrCode, makeCode
 import json
+from datetime import datetime
 
 
 def option1():
@@ -25,7 +26,11 @@ def option1():
     qrcodeString = startForm()
     qrCodeMatrix = makeCode(qrcodeString)
     stringCode = drawCode(qrCodeMatrix, theme)
-    with open('./output/out.svg', 'w', encoding="utf-8")as file:
+    with open('./output/out.svg', 'w', encoding="utf-8") as file:
+        file.write(stringCode)
+    now = datetime.now()
+
+    with open(f'./output/archive/{now.strftime("%d-%m-%Y-%H-%M-%S")}.svg', 'w', encoding="utf-8") as file:
         file.write(stringCode)
     print("\n\n Kod je uspesno napravljen!")
 

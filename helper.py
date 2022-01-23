@@ -1,4 +1,16 @@
+from importlib.machinery import SourceFileLoader
+from types import ModuleType
+from typing import Callable
 from Element import Element
+
+
+def getDrawFromModule(mod: ModuleType) -> Callable[[list[list[bool]]], Element]:
+    m = SourceFileLoader(
+        mod["name"], mod["path"]).load_module()
+    if(hasattr(m, "draw")):
+        d: Callable[[list[list[bool]]], Element] = m.draw
+        return d
+    raise ImportError("Now draw funcion in", mod["name"], mod["path"])
 
 
 def hex_to_rgb(hex_string):
@@ -27,7 +39,7 @@ def addPadding(modMatrix, padding=padding):
     return padMatrix
 
 
-def drawRect(startX, startY, width, height):
+def drawRect(startX, startY, width=cellSize, height=cellSize):
     el = Element("rect")
     el.add_attribute("x", str(startX))
     el.add_attribute("y", str(startY))
@@ -36,7 +48,7 @@ def drawRect(startX, startY, width, height):
     return el
 
 
-def drawCircle(startX, startY, width):
+def drawCircle(startX, startY, width=cellSize):
     el = Element('circle')
     el.add_attribute('cx', str(startX+width/2))
     el.add_attribute('cy', str(startY+width/2))

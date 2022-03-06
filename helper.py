@@ -4,7 +4,7 @@ from typing import Callable
 from Element import Element
 
 
-def getDrawFromModule(mod: ModuleType) -> Callable[[list[list[bool]]], Element]:
+def get_draw_fun_from_module(mod: ModuleType) -> Callable[[list[list[bool]]], Element]:
     m = SourceFileLoader(
         mod["name"], mod["path"]).load_module()
     if(hasattr(m, "draw")):
@@ -24,22 +24,22 @@ def rgb_to_hex(colortuple: tuple[int, int, int]):
     return '#' + ''.join(f'{i:02X}' for i in colortuple)
 
 
-cellSize = 24
+cell_size = 24
 padding = 1
 
 
-def addPadding(modMatrix, padding=padding):
-    cells = len(modMatrix[0])
-    padMatrix = [[False for x in range(cells+padding*2)]
-                 for x in range(cells+padding*2)]
-    for rowIndex in range(cells):
-        for elementIndex in range(cells):
-            padMatrix[rowIndex+padding][elementIndex +
-                                        padding] = modMatrix[rowIndex][elementIndex]
-    return padMatrix
+def add_padding(matrix_mod, padding=padding):
+    cells = len(matrix_mod[0])
+    matrix_p = [[False for x in range(cells+padding*2)]
+                for x in range(cells+padding*2)]
+    for row_index in range(cells):
+        for element_index in range(cells):
+            matrix_p[row_index+padding][element_index +
+                                        padding] = matrix_mod[row_index][element_index]
+    return matrix_p
 
 
-def drawRect(startX, startY, width=cellSize, height=cellSize):
+def draw_rect(startX: int, startY: int, width=cell_size, height=cell_size):
     el = Element("rect")
     el.add_attribute("x", str(startX))
     el.add_attribute("y", str(startY))
@@ -48,7 +48,7 @@ def drawRect(startX, startY, width=cellSize, height=cellSize):
     return el
 
 
-def drawCircle(startX, startY, width=cellSize):
+def draw_circle(startX, startY, width=cell_size):
     el = Element('circle')
     el.add_attribute('cx', str(startX+width/2))
     el.add_attribute('cy', str(startY+width/2))
@@ -56,11 +56,11 @@ def drawCircle(startX, startY, width=cellSize):
     return el
 
 
-def drawRectCode(matrix: list[list[bool]]) -> Element:
+def draw_rect_code(matrix: list[list[bool]]) -> Element:
     g = Element('g')
     for yIndex, row in enumerate(matrix):
         for xIndex, el in enumerate(row):
             if el:
-                rect = drawRect(xIndex*24, yIndex*24, 24, 24)
+                rect = draw_rect(xIndex*24, yIndex*24, 24, 24)
                 g.append_child(rect)
     return g

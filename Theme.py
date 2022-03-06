@@ -3,7 +3,7 @@
 from my_types import ColorsType, ModuleType, ThemeType
 from ColorPicker import ColorPicerFormat, colorPicker
 from helper import hex_to_rgb, rgb_to_hex
-from import_files import getColors, getEyes, getShapes, getThemes
+import import_files
 
 import json
 import inquirer
@@ -12,8 +12,8 @@ from blessed import Terminal
 term = Terminal()
 
 
-def selectTheme() -> ThemeType:
-    themes = getThemes()
+def select() -> ThemeType:
+    themes = import_files.themes()
     themes.sort(key=lambda the: the['name'])
     options = []
 
@@ -93,7 +93,7 @@ def inputColors(colors: ColorsType, options: list[str] = ["One color", "Gradient
 
 
 def inputDotsShape() -> ModuleType:
-    shapes = getShapes()
+    shapes = import_files.shapes()
     options = [shape['name'] for shape in shapes]
     selected = inquirer.list_input("Input the dots shape", choices=options)
     index = options.index(selected)
@@ -101,7 +101,7 @@ def inputDotsShape() -> ModuleType:
 
 
 def inputEyesShape() -> tuple[ModuleType, ModuleType, ModuleType]:
-    shapes = getEyes()
+    shapes = import_files.eyes()
     options = [shape['name'] for shape in shapes]
     selectedTL = inquirer.list_input(
         "Select the eyes shape for top left", choices=options)
@@ -117,8 +117,8 @@ def inputEyesShape() -> tuple[ModuleType, ModuleType, ModuleType]:
     return shapes[indexTL], shapes[indexTR], shapes[indexBL]
 
 
-def createTheme() -> ThemeType:
-    colors = getColors()
+def create() -> ThemeType:
+    colors = import_files.colors()
     name = ""
     while True:
         name = input("Name your theme ")
@@ -153,14 +153,14 @@ def createTheme() -> ThemeType:
 
 def main():
     create = True
-    print(len(getColors()))
+    print(len(import_files.colors()))
     if(create):
-        theme = createTheme()
+        theme = create()
         with open(f'mods/themes/hello.json', 'w+') as file:
             json.dump(theme, file)
         print(theme)
     else:
-        theme = selectTheme()
+        theme = select()
         print(theme)
 
 

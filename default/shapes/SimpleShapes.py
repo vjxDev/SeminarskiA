@@ -3,58 +3,58 @@ import math
 from types import ModuleType
 from typing import Callable
 from Element import Element
-from Generator import generator
-from helper import cellSize, drawRect, drawCircle
-from import_files import getSimpleShpaes
+import random_g
+from helper import cell_size, draw_rect, draw_circle
+import import_files
 import inquirer
 
 
-def importSimpleShapeDraw(mod: ModuleType) -> Callable[[int, int], Element]:
+def import_simple_draw(mod: ModuleType) -> Callable[[int, int], Element]:
     m = SourceFileLoader(
         mod["name"], mod["path"]).load_module()
     if(hasattr(m, "draw")):
-        d: Callable[[int, int], Element] = m.draw
-        return d
+        draw: Callable[[int, int], Element] = m.draw
+        return draw
     raise ImportError("Now draw funcion in", mod["name"], mod["path"])
 
 
-def defaultDraw(x: int, y: int) -> Element:
-    return drawRect(x, y)
+def default_draw(x: int, y: int) -> Element:
+    return draw_rect(x, y)
 
 
-def miniForm():
-    simpleShapes = getSimpleShpaes()
+def form_simple_shapes():
+    simple_shapes = import_files.simple_shpaes()
 
-    options = [shape['name'] for shape in simpleShapes]
-    selectedList = inquirer.checkbox(
+    options = [shape['name'] for shape in simple_shapes]
+    selected_list = inquirer.checkbox(
         "Select one or multiple simple shapes", choices=options)
-    drawFuncs: list[Callable[[int, int], str]] = []
+    draw_functions: list[Callable[[int, int], str]] = []
 
-    for s in selectedList:
+    for s in selected_list:
         index = next((i for i, item in enumerate(options) if item == s), -1)
         if index == -1:
             continue
         else:
-            option = simpleShapes[index]
-            drawFuncs.append(importSimpleShapeDraw(option))
-    if(len(drawFuncs) == 0):
-        drawFuncs.append(defaultDraw)
+            option = simple_shapes[index]
+            draw_functions.append(import_simple_draw(option))
+    if(len(draw_functions) == 0):
+        draw_functions.append(default_draw)
 
-    return drawFuncs
+    return draw_functions
 
 
 def draw(matrix: list[list[bool]]) -> Element:
     g = Element('g')
 
-    funcs = miniForm()
-    gen = generator(239856329867)
+    funcs = form_simple_shapes()
+    gen = random_g.gen(239856329867)
 
     def fRandom():
         return math.floor(next(gen)*len(funcs))
 
-    for yIndex, row in enumerate(matrix):
-        for xIndex, el in enumerate(row):
+    for y_index, row in enumerate(matrix):
+        for x_index, el in enumerate(row):
             if el:
                 g.append_child(funcs[fRandom()](
-                    xIndex*cellSize, yIndex*cellSize))
+                    x_index*cell_size, y_index*cell_size))
     return g

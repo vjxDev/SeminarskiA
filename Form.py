@@ -3,16 +3,16 @@ import inquirer
 
 import re
 
-formOptions = Literal['text', 'URL', 'WI-FI', 'contact', 'event', 'call']
+answerType = Literal['text', 'URL', 'WI-FI', 'contact', 'event', 'call']
 
 
-def startForm() -> str:
+def start() -> str:
 
     answers = inquirer.list_input(
         message='Select qrcode type',
         choices=['text', 'URL', 'WI-FI', 'contact', 'event', 'call']
     )
-    selected: formOptions = answers
+    selected: answerType = answers
     match selected:
         case 'text':
             text = input("Input some text ")
@@ -47,8 +47,8 @@ def startForm() -> str:
 
 def WIFIIn() -> str:
     wifiname: str = input("WiFi name (SSID) ")
-    hasPassword: bool = False
-    isHidden: bool = False
+    has_password: bool = False
+    hidden: bool = False
     password: str = ""
     type: Literal["WAP/WAP2", "WEP"]
 
@@ -56,17 +56,17 @@ def WIFIIn() -> str:
         message="Options ", choices=["Is your wifi hidden", "Dose your WiFi have a password"], default=False),
 
     options = {v: True for v in answers1[0]}
-    isHidden = options.get("Is your wifi hidden", False)
-    hasPassword = options.get(
+    hidden = options.get("Is your wifi hidden", False)
+    has_password = options.get(
         "Dose your WiFi have a password", False)
 
-    if(hasPassword):
+    if(has_password):
         password = input("Password "),
         type = inquirer.list_input(
             message="WiFi type", choices=["WEP", "WPA/WPA2"]),
 
     out = f"WIFI:T:"
-    if hasPassword:
+    if has_password:
         if type == "WEP":
             out += "WEP"
         else:
@@ -74,7 +74,7 @@ def WIFIIn() -> str:
     else:
         out += "nopass"
     out += f";S:{wifiname};P:{password};"
-    if isHidden:
+    if hidden:
         out += "H:true"
     out += ";"
     return out
@@ -110,4 +110,4 @@ def fileIn() -> str:
 
 
 if __name__ == "__main__":
-    print(startForm())
+    print(start())

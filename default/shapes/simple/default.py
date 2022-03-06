@@ -1,6 +1,6 @@
 from Element import Element
-from helper import cellSize, drawRect
+from helper import cell_size, draw_rect
 
 
 def draw(x: int, y: int) -> Element:
-    return drawRect(x, y)
+    return draw_rect(x, y)

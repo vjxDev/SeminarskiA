@@ -1,4 +1,4 @@
-def generator(seed=55):
+def gen(seed=55):
     def g():
         x = seed
         while (True):
@@ -21,7 +21,7 @@ def generator(seed=55):
 
 
 if __name__ == "__main__":
-    g = generator(239856329867)
-    m = generator(239856329866)
+    g = gen(239856329867)
+    m = gen(239856329866)
     while(True):
         print(f"{next(g)}|{next(m)}")

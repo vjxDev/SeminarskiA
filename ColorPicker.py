@@ -31,17 +31,18 @@ def color_table() -> list[ColorPicerFormat]:
     return [{'name': f"{item[0]}{item[1]}{item[2]}", "color": item} for item in listOfRGB]
 
 
-def render(HSV_SORTED_COLORS: list[ColorPicerFormat], term: Terminal, idx: int, cache: str = ""):
-    r, g, b = HSV_SORTED_COLORS[idx]['color']
+def render(HSV_SORTED_COLORS: list[ColorPicerFormat], term: Terminal, selected_index: int, cache: str = ""):
+    r, g, b = HSV_SORTED_COLORS[selected_index]['color']
     result = cache
     result += term.clear_eos + '\n'
     result += term.on_color_rgb(r, g, b) + term.clear_eos + '\n'
     result += term.normal + \
-        term.center(f'{HSV_SORTED_COLORS[idx]["name"]}') + '\n'
+        term.center(f'{HSV_SORTED_COLORS[selected_index]["name"]}') + '\n'
     result += term.normal + term.center(
         f'{term.number_of_colors} colors - ')
 
-    result += term.move_yx(idx // term.width, idx % term.width)
+    result += term.move_yx(selected_index // term.width,
+                           selected_index % term.width)
     result += term.on_color_rgb(r, g, b)(" \b")
     return result
 

@@ -1,9 +1,9 @@
 import inquirer
-from DrawCode import drawCode
-from Theme import createTheme, selectTheme
+import qr_code
+import theme
 from my_types import ThemeType
-from Form import startForm
-from Make_qrcode import debugPrintQrCode, makeCode
+import form
+
 import json
 from datetime import datetime
 
@@ -11,50 +11,50 @@ from datetime import datetime
 def option1():
     c = ["Create a theme", "Use a saved theme"]
     a = inquirer.list_input("Theme option", choices=c)
-    theme: ThemeType = {}
+    theme_config: ThemeType = {}
     match a:
         case "Create a theme":
-            theme = createTheme()
+            theme_config = theme.create()
             save = inquirer.confirm("Save this theme")
             if save:
-                with open(f'mods/themes/{theme["name"]}.json', 'w+') as file:
-                    json.dump(theme, file)
+                with open(f'mods/themes/{theme_config["name"]}.json', 'w+') as file:
+                    json.dump(theme_config, file)
 
         case "Use a saved theme":
-            theme = selectTheme()
+            theme_config = theme.select()
+
     print("\n"*3)
-    qrcodeString = startForm()
-    qrCodeMatrix = makeCode(qrcodeString)
-    stringCode = drawCode(qrCodeMatrix, theme)
+
+    code_matrix = qr_code.make_matrix(form.start())
+    code_svg = qr_code.draw_code(code_matrix, theme_config)
     with open('./output/out.svg', 'w', encoding="utf-8") as file:
-        file.write(stringCode)
+        file.write(code_svg)
     now = datetime.now()
 
     with open(f'./output/archive/{now.strftime("%d-%m-%Y-%H-%M-%S")}.svg', 'w', encoding="utf-8") as file:
-        file.write(stringCode)
+        file.write(code_svg)
     print("\n\n Kod je uspesno napravljen!")
 
 
 def main():
-    c = ["Create new QR code",
-         "Create new QR code theme",
-         "Drew statistics graph"]
-    goAgain = True
-    while goAgain:
-        a = inquirer.list_input("Welcome", choices=c)
+    choices = ["Create new QR code",
+               "Create new QR code theme",
+               "Drew statistics graph"]
+    go_again = True
+    while go_again:
+        a = inquirer.list_input("Welcome", choices=choices)
         match a:
             case "Create new QR code":
                 option1()
 
             case "Create new QR code theme":
-                theme = createTheme()
-                with open(f'mods/themes/{theme["name"]}.json', 'w+') as file:
-                    json.dump(theme, file)
+                theme_config = theme.create()
+                with open(f'mods/themes/{theme_config["name"]}.json', 'w+') as file:
+                    json.dump(theme_config, file)
 
             case "Drew statistics graph":
                 pass
-
-        goAgain = inquirer.confirm("Run the program again")
+        go_again = inquirer.confirm("Run the program again")
 
 
 if __name__ == "__main__":

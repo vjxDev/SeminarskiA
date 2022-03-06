@@ -1,32 +1,32 @@
 from Element import Element
-from helper import addPadding, cellSize, drawRect, drawCircle
+from helper import add_padding, cell_size, draw_rect, draw_circle
 import math
 
 
-def draw(matrix: list[list[bool]]) -> Element:
+def draw(matrix_in: list[list[bool]]) -> Element:
     g = Element('g')
-    pMatrix = addPadding(matrix, 1)
+    matrix = add_padding(matrix_in, 1)
 
     size = 20
-    for yIndex, row in enumerate(matrix):
-        for xIndex, el in enumerate(row):
+    for y_index, row in enumerate(matrix_in):
+        for x_index, el in enumerate(row):
             if el:
-                top = pMatrix[yIndex+1-1][xIndex+1]
-                bottom = pMatrix[yIndex+1+1][xIndex+1]
+                top = matrix[y_index+1-1][x_index+1]
+                bottom = matrix[y_index+1+1][x_index+1]
                 element: Element
 
-                centerX = xIndex*cellSize+cellSize/2
-                centerY = yIndex*cellSize+cellSize/2
+                centerX = x_index*cell_size+cell_size/2
+                centerY = y_index*cell_size+cell_size/2
 
-                removed = (cellSize - size) / 2
+                removed = (cell_size - size) / 2
 
                 if top and bottom:
-                    element = drawRect(xIndex*cellSize +
-                                       removed, yIndex*cellSize, size, 24)
+                    element = draw_rect(x_index*cell_size +
+                                        removed, y_index*cell_size, size, 24)
                 elif top or bottom:
                     element = Element('path')
                     element.add_attribute('d',
-                                          f"M {xIndex*24} {yIndex*24 + removed}" +
+                                          f"M {x_index*24} {y_index*24 + removed}" +
                                           f"v {24-removed*2}" +
                                           f"h {24/2}"
                                           f"a {size/2} {size/2}, 0, 0, 0, 0 {-size}"
@@ -38,7 +38,7 @@ def draw(matrix: list[list[bool]]) -> Element:
                         element.add_attribute(
                             "transform", f"rotate({(180 * math.pi * -1) / math.pi/2},{centerX},{centerY})")
                 else:
-                    element = drawCircle(
-                        xIndex*cellSize, yIndex*cellSize, size)
+                    element = draw_circle(
+                        x_index*cell_size, y_index*cell_size, size)
                 g.append_child(element)
     return g

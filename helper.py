@@ -5,12 +5,14 @@ from Element import Element
 
 
 def get_draw_fun_from_module(mod: ModuleType) -> Callable[[list[list[bool]]], Element]:
+    # mod je dict sa kljucevima "name" i "path", path je relativna putanja od lokacije projekta
+    # primer oblika mod mozete naci u mods\themes\Banana.json
     m = SourceFileLoader(
         mod["name"], mod["path"]).load_module()
     if(hasattr(m, "draw")):
         d: Callable[[list[list[bool]]], Element] = m.draw
         return d
-    raise ImportError("Now draw funcion in", mod["name"], mod["path"])
+    raise ImportError("Now draw function in", mod["name"], mod["path"])
 
 
 def hex_to_rgb(hex_string):

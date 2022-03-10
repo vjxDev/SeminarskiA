@@ -8,7 +8,7 @@ import json
 from datetime import datetime
 
 
-def option1():
+def option_create_qrcode():
     c = ["Create a theme", "Use a saved theme"]
     a = inquirer.list_input("Theme option", choices=c)
     theme_config: ThemeType = {}
@@ -33,7 +33,18 @@ def option1():
 
     with open(f'./output/archive/{now.strftime("%d-%m-%Y-%H-%M-%S")}.svg', 'w', encoding="utf-8") as file:
         file.write(code_svg)
-    print("\n\n Kod je uspesno napravljen!")
+    print("\n\n QRCode Successful created")
+
+
+def option_create_theme():
+    theme_config = theme.create()
+    with open(f'mods/themes/{theme_config["name"]}.json', 'w+') as file:
+        json.dump(theme_config, file)
+
+
+def option_draw_stats():
+    # [ ] Create me
+    pass
 
 
 def main():
@@ -45,15 +56,13 @@ def main():
         a = inquirer.list_input("Welcome", choices=choices)
         match a:
             case "Create new QR code":
-                option1()
+                option_create_qrcode()
 
             case "Create new QR code theme":
-                theme_config = theme.create()
-                with open(f'mods/themes/{theme_config["name"]}.json', 'w+') as file:
-                    json.dump(theme_config, file)
+                option_create_theme()
 
             case "Drew statistics graph":
-                pass
+                option_draw_stats()
         go_again = inquirer.confirm("Run the program again")
 
 

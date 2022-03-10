@@ -1,5 +1,3 @@
-
-
 from Element import Element
 from helper import add_padding, cell_size, draw_rect
 

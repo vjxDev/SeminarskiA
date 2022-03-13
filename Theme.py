@@ -35,11 +35,11 @@ def select() -> ThemeType:
     return themes[options.index(selectedTheme)]
 
 
-def oneColorChoice(colors: ColorsType) -> tuple[int, int, int]:
+def select_color_one(colors: ColorsType) -> tuple[int, int, int]:
     c = ['Manual input', 'Color picker', 'Select color from files']
-    inputChoioce = inquirer.list_input(
+    choce = inquirer.list_input(
         message="How do you want to select your colors", choices=c)
-    match inputChoioce:
+    match choce:
         case 'Manual input':
             while True:
                 # [ ] LATER! : validate=lambda _, c: 0 <= int(c) <= 255 is not working
@@ -63,36 +63,36 @@ def oneColorChoice(colors: ColorsType) -> tuple[int, int, int]:
             return colorPicker(options)
 
 
-def inputColors(colors: ColorsType, options: list[str] = ["One color", "Gradient", "Multi Color"], ) -> dict[str, list[str]]:
+def select_color(colors: ColorsType, options: list[str] = ["One color", "Gradient", "Multi Color"], ) -> dict[str, list[str]]:
 
-    colorType = inquirer.list_input(
+    color_type = inquirer.list_input(
         message="Select color type", choices=options)
-    returnObject = {}
-    match colorType:
+    object = {}
+    match color_type:
         case 'One color':
-            color = oneColorChoice(colors)
+            color = select_color_one(colors)
             return {'type': "one", 'colors': [rgb_to_hex(color)]}
         case "Multi Color":
-            returnObject = {'type': 'multicolor', 'colors': []}
-            keepOnGoing = True
-            while keepOnGoing:
-                color = oneColorChoice(colors)
-                returnObject['colors'].append(rgb_to_hex(color))
-                keepOnGoing = inquirer.confirm("Add more colors")
-            return returnObject
+            object = {'type': 'multicolor', 'colors': []}
+            keep_on_going = True
+            while keep_on_going:
+                color = select_color_one(colors)
+                object['colors'].append(rgb_to_hex(color))
+                keep_on_going = inquirer.confirm("Add more colors")
+            return object
 
         case  "Gradient":
-            returnObject = {
+            object = {
                 'type': 'gradient', 'colors': []}
-            keepOnGoing = True
-            while keepOnGoing:
-                color = oneColorChoice(colors)
-                returnObject['colors'].append(rgb_to_hex(color))
-                keepOnGoing = inquirer.confirm("Add more colors")
-            return returnObject
+            keep_on_going = True
+            while keep_on_going:
+                color = select_color_one(colors)
+                object['colors'].append(rgb_to_hex(color))
+                keep_on_going = inquirer.confirm("Add more colors")
+            return object
 
 
-def inputDotsShape() -> ModuleType:
+def select_shape_dots() -> ModuleType:
     shapes = import_files.shapes()
     options = [shape['name'] for shape in shapes]
     selected = inquirer.list_input("Input the dots shape", choices=options)
@@ -100,7 +100,7 @@ def inputDotsShape() -> ModuleType:
     return shapes[index]
 
 
-def inputEyesShape() -> tuple[ModuleType, ModuleType, ModuleType]:
+def select_shape_eyes() -> tuple[ModuleType, ModuleType, ModuleType]:
     shapes = import_files.eyes()
     options = [shape['name'] for shape in shapes]
     selectedTL = inquirer.list_input(
@@ -126,27 +126,27 @@ def create() -> ThemeType:
             break
         print("Unesite ime")
 
-    dotsOptions = ["One color", "Gradient", "Multi Color"]
-    eyesOptions = ["One color", "Gradient"]
+    option_dots = ["One color", "Gradient", "Multi Color"]
+    option_eyes = ["One color", "Gradient"]
     print("Input the dots colors:")
-    dotsColor = inputColors(colors, dotsOptions)
-    dotsShape = inputDotsShape()
+    option_dots_colors = select_color(colors, option_dots)
+    option_dots_shape = select_shape_dots()
 
-    eyesColors = []
+    option_eyes_colors = []
     print("Input top eye tl colors: ")
-    eyesColors.append(inputColors(colors, eyesOptions))
+    option_eyes_colors.append(select_color(colors, option_eyes))
     print("Input top eye tr colors: ")
-    eyesColors.append(inputColors(colors, eyesOptions))
+    option_eyes_colors.append(select_color(colors, option_eyes))
     print("Input top eye bl colors: ")
-    eyesColors.append(inputColors(colors, eyesOptions))
+    option_eyes_colors.append(select_color(colors, option_eyes))
 
-    eyesShape = inputEyesShape()
+    option_eyes_shape = select_shape_eyes()
     theme: ThemeType = {
         'name': name,
-        'dotsColor': dotsColor,
-        'dotsShape': dotsShape,
-        'eyesColor': eyesColors,
-        'eyesShape': eyesShape
+        'dotsColor': option_dots_colors,
+        'dotsShape': option_dots_shape,
+        'eyesColor': option_eyes_colors,
+        'eyesShape': option_eyes_shape
     }
     return theme
 

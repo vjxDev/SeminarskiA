@@ -1,4 +1,5 @@
 import inquirer
+from analytics import add_theme, create_report
 import qr_code
 import theme
 from my_types import ThemeType
@@ -22,28 +23,29 @@ def option_create_qrcode():
 
         case "Use a saved theme":
             theme_config = theme.select()
-
+    add_theme(theme_config)
     print("\n"*3)
-
-    code_matrix = qr_code.make_matrix(form.start())
+    string_data = form.start()
+    code_matrix = qr_code.make_matrix(string_data)
     code_svg = qr_code.draw_code(code_matrix, theme_config)
+
     with open('./output/out.svg', 'w', encoding="utf-8") as file:
         file.write(code_svg)
-    now = datetime.now()
-
-    with open(f'./output/archive/{now.strftime("%d-%m-%Y-%H-%M-%S")}.svg', 'w', encoding="utf-8") as file:
+    date_string = datetime.now().strftime("%d-%m-%Y-%H-%M-%S")
+    with open(f'./output/archive/{date_string}.svg', 'w', encoding="utf-8") as file:
         file.write(code_svg)
-    print("\n\n QRCode Successful created")
+    print("\n\n QRCode Successfuly created")
 
 
 def option_create_theme():
     theme_config = theme.create()
+    add_theme(theme_config)
     with open(f'mods/themes/{theme_config["name"]}.json', 'w+') as file:
         json.dump(theme_config, file)
 
 
 def option_draw_stats():
-    # [ ] Create me
+    create_report()
     pass
 
 

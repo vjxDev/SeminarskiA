@@ -33,15 +33,15 @@ def matrix_remove_eyes(list: list[list[bool]]) -> list[list[bool]]:
     m = copy(list)
     cells = len(m[0])
 
-    for rowIndex in range(cells):
-        for elementIndex in range(cells):
-            if rowIndex < 7 and elementIndex < 7:
-                m[rowIndex][elementIndex] = False
+    for index_y in range(cells):
+        for index_x in range(cells):
+            if index_y < 7 and index_x < 7:
+                m[index_y][index_x] = False
 
-            if rowIndex < 7 and elementIndex > cells-8:
-                m[rowIndex][elementIndex] = False
-            if rowIndex > cells-8 and elementIndex < 7:
-                m[rowIndex][elementIndex] = False
+            if index_y < 7 and index_x > cells-8:
+                m[index_y][index_x] = False
+            if index_y > cells-8 and index_x < 7:
+                m[index_y][index_x] = False
     return m
 
 
@@ -53,19 +53,19 @@ def IDEyesMask(x): return f"{x}-eye-mask"
 
 def draw_code(matrix: list[list[bool]], theme: ThemeType) -> str:
 
-    drawDotsFun = get_draw_fun_from_module(theme["dotsShape"])
-    dEyesFList = [get_draw_fun_from_module(m) for m in theme["eyesShape"]]
+    draw_dots = get_draw_fun_from_module(theme["dotsShape"])
+    draw_eyes_list = [get_draw_fun_from_module(m) for m in theme["eyesShape"]]
 
     cells = len(matrix[0])
     width = height = cells*24
 
-    modMatrix = matrix_remove_eyes(matrix)
+    mod_matix = matrix_remove_eyes(matrix)
 
     defs = Element('defs')
 
     g_outer_no_mask = Element('g')
     g_outer_mask = Element('g')
-    g_dots_matrix = drawDotsFun(modMatrix)
+    g_dots_matrix = draw_dots(mod_matix)
 
     g = random_g.gen(239856329867)
 
@@ -108,8 +108,8 @@ def draw_code(matrix: list[list[bool]], theme: ThemeType) -> str:
                 x.add_attribute('fill', dots_colors[dots_random()])
 
     g_eyes = Element('g')
-    g_eyes.children = [dEyesFList[0](0, 0), dEyesFList[1](
-        cells-7, 0), dEyesFList[2](0, cells-7,)]
+    g_eyes.children = [draw_eyes_list[0](0, 0), draw_eyes_list[1](
+        cells-7, 0), draw_eyes_list[2](0, cells-7,)]
     to_remove = []
     for index, options in enumerate(theme["eyesColor"]):
 

@@ -22,13 +22,12 @@ def sortby_hv(item: ColorPicerFormat):
 
 
 def color_table() -> list[ColorPicerFormat]:
-    listOfRGB = []
-
+    list_RGB = []
     for r in range(16):
         for g in range(16):
             for b in range(16):
-                listOfRGB.append((r*16, b*16, g*16))
-    return [{'name': f"{item[0]}{item[1]}{item[2]}", "color": item} for item in listOfRGB]
+                list_RGB.append((r*16, b*16, g*16))
+    return [{'name': f"{item[0]}{item[1]}{item[2]}", "color": item} for item in list_RGB]
 
 
 def render(HSV_SORTED_COLORS: list[ColorPicerFormat], term: Terminal, selected_index: int, cache: str = ""):
@@ -55,7 +54,7 @@ def next_color(color, forward):
     return colorspaces[next_index]
 
 
-def colorPicker(c: list[ColorPicerFormat] = color_table()) -> tuple[int, int, int]:
+def color_picker(c: list[ColorPicerFormat] = color_table()) -> tuple[int, int, int]:
     HSV_SORTED_COLORS = sorted(c, key=sortby_hv)
 
     cache: str = term.home + term.normal + ''.join(
@@ -93,5 +92,5 @@ def colorPicker(c: list[ColorPicerFormat] = color_table()) -> tuple[int, int, in
 
 
 if __name__ == '__main__':
-    r, g, b = colorPicker()
+    r, g, b = color_picker()
     print(term.color_rgb(r, g, b)+"◼"+term.normal)

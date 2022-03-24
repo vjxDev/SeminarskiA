@@ -3,5 +3,8 @@
   "python.linting.pylintEnabled": false,
   "python.linting.enabled": true,
   "python.linting.mypyEnabled": true,
-  "jupyter.jupyterServerType": "local"
+  "jupyter.jupyterServerType": "local",
+  "todo-tree.tree.showBadges": true,
+  "todo-tree.tree.disableCompactFolders": true,
+  "todo-tree.tree.showCountsInTree": false
 }

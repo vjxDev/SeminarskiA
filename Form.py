@@ -3,7 +3,7 @@ import inquirer
 
 import re
 
-answerType = Literal['text', 'URL', 'WI-FI', 'contact', 'event', 'call']
+AnswerType = Literal['text', 'URL', 'WI-FI', 'contact', 'event', 'call']
 
 
 def start() -> str:
@@ -12,15 +12,15 @@ def start() -> str:
         message='Select qrcode type',
         choices=['text', 'URL', 'WI-FI', 'contact', 'event', 'call']
     )
-    selected: answerType = answers
+    selected: AnswerType = answers
     match selected:
         case 'text':
             text = input("Input some text ")
             return text
         case 'URL':
-            t = ""
+            url_text = ""
             while(True):
-                text = input(f"Input a url {t} ")
+                text = input(f"Input a url {url_text} ")
                 regex = re.compile(
                     r'^https?://'
                     r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+[A-Z]{2,6}\.?|'
@@ -32,20 +32,21 @@ def start() -> str:
                 if test != None:
                     return text
                 else:
-                    t = "!!! Add https:// or http:// at the start !!! - "
+                    url_text = "!!! Add http:// or https:// at the start !!! - "
         case 'WI-FI':
-            return WIFIIn()
+            return form_WIFI()
         case 'contact':
-            return contactIn()
+            return from_contact()
         case 'event':
             return fileIn()
         case 'call':
+            # [ ] - Call
             print("call")
 
     return "add me"
 
 
-def WIFIIn() -> str:
+def form_WIFI() -> str:
     wifiname: str = input("WiFi name (SSID) ")
     has_password: bool = False
     hidden: bool = False
@@ -80,7 +81,7 @@ def WIFIIn() -> str:
     return out
 
 
-def contactIn():
+def from_contact():
     name = input("Name ")
     company = input("Company ")
     title = input("Title ")
@@ -103,6 +104,8 @@ VERSION:3.0
 END:VCARD"""
 
     return out
+
+# [ ] TODO
 
 
 def fileIn() -> str:

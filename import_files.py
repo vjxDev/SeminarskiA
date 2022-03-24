@@ -18,20 +18,18 @@ def colors() -> ColorsType:
                 name, ext = ntpath.splitext(tail)
                 colors.append({'name': name, 'color': color})
 
-        for file_name in glob.glob(f'{folder}/{subfolders[0]}/*.data'):
+        for file_name in glob.glob(f'{folder}/{subfolders[0]}/*.colors'):
             with open(file_name, 'r') as file:
                 for line in file:
                     line = line.strip()
                     name, color = tuple(line.split("|"))
                     colors.append({'name': name, 'color': color})
-
     return colors
 
 
 def eyes() -> list[ModuleType]:
     eyes: list[ModuleType] = []
     for folder in folders:
-
         for file_name in glob.glob(f'{folder}/{subfolders[1]}/*.py'):
             head, tail = ntpath.split(file_name)
             name, ext = ntpath.splitext(tail)
@@ -41,7 +39,6 @@ def eyes() -> list[ModuleType]:
 
 def shapes() -> list[ModuleType]:
     shapes: list[ModuleType] = []
-
     for folder in folders:
         for file_name in glob.glob(f'{folder}/{subfolders[2]}/*.py'):
             head, tail = ntpath.split(file_name)

@@ -68,7 +68,6 @@ def create_report():
         add_some(dots_shape_count, theme["dotsShape"]["name"])
         for eyes_shape in theme["eyesShape"]:
             add_some(eyes_shape_count, eyes_shape["name"])
-    # [ ] butfy
     report_pie(name_count)
     report_pie_colors(dots_color_count)
     report_pie(dots_color_type_count)
